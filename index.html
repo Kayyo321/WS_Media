@@ -1,60 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Social Media Platform</title>
+    <title>Crypto Wallet Address Input</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
         }
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-        }
-        .post {
+
+        .raffle-box {
+            padding: 20px;
+            background-color: #ffffff;
             border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .participant-list {
+            margin-top: 20px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Social Media Platform</h1>
-    </header>
-    <div>
-        <h2>Create a New Post</h2>
-        <form id="postForm">
-            <textarea id="postText" rows="4" cols="50" placeholder="Write your post here"></textarea>
-            <br>
-            <button type="button" onclick="createPost()">Post</button>
-        </form>
-    </div>
-    <div id="postsContainer">
-        <h2>Recent Posts</h2>
-        <!-- New posts will be added here dynamically -->
+    <div class="raffle-box">
+        <h1>Raffle</h1>
+
+        <div id="formContainer">
+            <h2>Enter Your Name and Crypto Wallet Address</h2>
+            <form id="walletForm">
+                <label for="userName">Your Name:</label>
+                <input type="text" id="userName" name="userName" required>
+                <br><br>
+                <label for="walletAddress">Wallet Address:</label>
+                <input type="text" id="walletAddress" name="walletAddress" required>
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="participantList" class="participant-list">
+            <!-- Participant names will be added here dynamically -->
+        </div>
     </div>
 
     <script>
-        function createPost() {
-            const postText = document.getElementById('postText').value;
-            if (postText.trim() !== '') {
-                const postContainer = document.createElement('div');
-                postContainer.classList.add('post');
+        const formContainer = document.getElementById("formContainer");
+        const participantList = document.getElementById("participantList");
+        const walletForm = document.getElementById("walletForm");
 
-                const postContent = document.createElement('p');
-                postContent.textContent = postText;
+        walletForm.addEventListener("submit", function(event) {
+            event.preventDefault();
 
-                postContainer.appendChild(postContent);
-                document.getElementById('postsContainer').appendChild(postContainer);
+            const userNameInput = document.getElementById("userName");
+            const walletAddressInput = document.getElementById("walletAddress");
 
-                document.getElementById('postText').value = '';
+            const userName = userNameInput.value;
+            const walletAddress = walletAddressInput.value;
+
+            if (userName && walletAddress) {
+                // Create a new participant entry
+                const participantEntry = document.createElement("p");
+                participantEntry.textContent = userName;
+                participantList.appendChild(participantEntry);
+
+                // Clear form inputs
+                userNameInput.value = "";
+                walletAddressInput.value = "";
+
+                // Hide the form and show the participant list
+                formContainer.style.display = "none";
+                participantList.style.display = "block";
             }
-        }
+        });
     </script>
 </body>
 </html>
