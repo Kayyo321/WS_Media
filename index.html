@@ -1,38 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crypto Wallet Address Input</title>
+    <title>Raffle DApp</title>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
-
-        .raffle-box {
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .participant-list {
-            margin-top: 20px;
-            text-align: left;
-        }
+        /* ... your existing CSS styles ... */
     </style>
 </head>
 <body>
     <div class="raffle-box">
-        <h1>Raffle</h1>
+        <h1>Raffle DApp</h1>
 
         <div id="formContainer">
-            <h2>Enter Your Name and Crypto Wallet Address</h2>
+            <h2>Enter Your Name and Ethereum Wallet Address</h2>
             <form id="walletForm">
                 <label for="userName">Your Name:</label>
                 <input type="text" id="userName" name="userName" required>
@@ -50,11 +29,9 @@
     </div>
 
     <script>
-        const formContainer = document.getElementById("formContainer");
-        const participantList = document.getElementById("participantList");
-        const walletForm = document.getElementById("walletForm");
+        // ... your existing JavaScript code ...
 
-        walletForm.addEventListener("submit", function(event) {
+        walletForm.addEventListener("submit", async function(event) {
             event.preventDefault();
 
             const userNameInput = document.getElementById("userName");
@@ -68,6 +45,12 @@
                 const participantEntry = document.createElement("p");
                 participantEntry.textContent = userName;
                 participantList.appendChild(participantEntry);
+
+                // Call the smart contract to enter the raffle
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                const contractAddress = 'CONTRACT_ADDRESS'; // Replace with the actual contract address
+                const contract = new web3.eth.Contract(ABI, contractAddress);
+                await contract.methods.enterRaffle(userName, walletAddress).send({ from: accounts[0] });
 
                 // Clear form inputs
                 userNameInput.value = "";
